@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthesia.MetaDataParser", "Synthesia.MetaDataParser\Synthesia.MetaDataParser.csproj", "{D7E71450-E93D-4578-A721-DAE002559BED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synthesia.MetaDataParser.Test", "Synthesia.MetaDataParser.Test\Synthesia.MetaDataParser.Test.csproj", "{C7B4A97B-8569-428F-A019-D554D6B831DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D7E71450-E93D-4578-A721-DAE002559BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7E71450-E93D-4578-A721-DAE002559BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7E71450-E93D-4578-A721-DAE002559BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B4A97B-8569-428F-A019-D554D6B831DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B4A97B-8569-428F-A019-D554D6B831DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B4A97B-8569-428F-A019-D554D6B831DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B4A97B-8569-428F-A019-D554D6B831DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
