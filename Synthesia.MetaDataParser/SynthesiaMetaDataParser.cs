@@ -13,7 +13,8 @@ namespace Synthesia.MetaDataParser
 
         protected virtual void ApplySongProperty(XElement songs, Song entry)
         {
-            XElement element = (from e in songs.Elements("Song") where e.AttributeOrDefault("UniqueId") == entry.UniqueId select e).FirstOrDefault();
+            XElement element = songs.Elements("Song")
+                .FirstOrDefault(e => e.AttributeOrDefault("UniqueId") == entry.UniqueId);
 
             if (element == null)
                 songs.Add(element = new XElement("Song"));
@@ -44,19 +45,23 @@ namespace Synthesia.MetaDataParser
 
         #region Methods
 
-        public Song Parser(string path)
+        public Song Parse(string path)
         {
-            return Parser(File.Open(path, FileMode.Open));
+            var stream = File.Open(path, FileMode.Open);
+            if(stream == null)
+                throw new FileNotFoundException();
+
+            return Parse(stream);
         }
 
-        public Song Parser(Stream stream)
+        public Song Parse(Stream stream)
         {
-            XDocument m_document;
+            XDocument mDocument;
 
             using (var reader = new StreamReader(stream))
-                m_document = XDocument.Load(reader, LoadOptions.None);
+                mDocument = XDocument.Load(reader, LoadOptions.None);
 
-            XElement top = m_document.Root;
+            XElement top = mDocument.Root;
 
             if (top == null || top.Name != "SynthesiaMetadata")
                 throw new InvalidOperationException("Stream does not contain a valid Synthesia metadata file.");
@@ -64,8 +69,10 @@ namespace Synthesia.MetaDataParser
             if (top.AttributeOrDefault("Version") != "1")
                 throw new InvalidOperationException("Unknown Synthesia metadata version.  A newer version of this editor may be available.");
 
-            XElement songs = m_document.Root.Element("Songs");
-            if (songs == null) m_document.Root.Add(songs = new XElement("Songs"));
+            XElement songs = mDocument.Root?.Element("Songs");
+
+            if (songs == null)
+                mDocument.Root?.Add(songs = new XElement("Songs"));
 
             var song = new Song();
             ApplySongProperty(songs, song);
