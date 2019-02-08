@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Synthesia.MetaDataParser.Models;
 
@@ -11,10 +13,17 @@ namespace Synthesia.MetaDataParser.Test
 
         protected Song SaveAndReloadSong(Song song)
         {
-            var parser = new SynthesiaMetaDataParser();
-            using (var stream = parser.Export(song))
+            var metadata = new SynthesiaMetadata
             {
-                return parser.Parse(stream);
+                Songs = new List<Song>
+                {
+                    song
+                }
+            };
+            var parser = new SynthesiaMetaDataParser();
+            using (var stream = parser.ToStream(metadata))
+            {
+                return parser.Parse(stream).Songs?.FirstOrDefault();
             }
         }
 
@@ -56,10 +65,7 @@ namespace Synthesia.MetaDataParser.Test
             var song = new Song();
             var parser = new SynthesiaMetaDataParser();
 
-            var exportStream = parser.Export(song);
-
-            //re-loading song
-            var loadingSong = parser.Parse(exportStream);
+            var savedSong = SaveAndReloadSong(song);
 
             //TODO: compare two song property
         }

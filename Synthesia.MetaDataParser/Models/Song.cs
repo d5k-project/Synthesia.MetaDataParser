@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Synthesia.MetaDataParser.Models.Fingers;
 using Synthesia.MetaDataParser.Models.Parts;
 
@@ -16,7 +15,7 @@ namespace Synthesia.MetaDataParser.Models
             Bookmarks = new Dictionary<int, string>();
             FingerHints = new Dictionary<int, FingerHint>();
             HandParts = new Dictionary<int, string>();
-            Parts = new Dictionary<int, NotePart>();
+            Parts = new Dictionary<int, IPart>();
         }
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace Synthesia.MetaDataParser.Models
         public string Title { get; set; }
 
         /// <summary>
-        /// Subtitile
+        /// Subtitle
         /// </summary>
         public string Subtitle { get; set; }
 
@@ -67,17 +66,17 @@ namespace Synthesia.MetaDataParser.Models
         /// <summary>
         /// Finger hints
         /// </summary>
-        public IDictionary<int,FingerHint> FingerHints { get; }
+        public IDictionary<int,FingerHint> FingerHints { get; set; }
 
         /// <summary>
         /// Hand parts
         /// </summary>
-        public IDictionary<int,string> HandParts { get; }
+        public IDictionary<int,string> HandParts { get; set; }
 
         /// <summary>
         /// Parts
         /// </summary>
-        public IDictionary<int, NotePart> Parts { get; }
+        public IDictionary<int, IPart> Parts { get; set; }
 
         /// <summary>
         /// Rating
@@ -92,12 +91,12 @@ namespace Synthesia.MetaDataParser.Models
         /// <summary>
         /// Returns a copy of the list.  Use AddTag() and RemoveTag() to make changes.
         /// </summary>
-        public IList<string> Tags { get; }
+        public IList<string> Tags { get; set; }
 
         /// <summary>
         /// Returns a copy of the dictionary.
         /// </summary>
-        public Dictionary<int, string> Bookmarks { get; }
+        public IDictionary<int, string> Bookmarks { get; set; }
 
         public override string ToString()
         {

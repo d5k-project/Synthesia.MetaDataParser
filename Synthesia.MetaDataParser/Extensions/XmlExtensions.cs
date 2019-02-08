@@ -29,7 +29,7 @@ namespace Synthesia.MetaDataParser.Extensions
             if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
             {
                 var a = element.Attribute(name);
-                if (a != null) a.Remove();
+                a?.Remove();
             }
             else element.SetAttributeValue(name, value);
         }
