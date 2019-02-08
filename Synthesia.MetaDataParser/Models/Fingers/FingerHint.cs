@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Synthesia.MetaDataParser.Models
+namespace Synthesia.MetaDataParser.Models.Fingers
 {
     /// <summary>
     /// 

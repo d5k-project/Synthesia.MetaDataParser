@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Synthesia.MetaDataParser.Models.Fingers;
+using Synthesia.MetaDataParser.Models.Parts;
 
 namespace Synthesia.MetaDataParser.Models
 {
@@ -13,8 +15,8 @@ namespace Synthesia.MetaDataParser.Models
             Tags = new List<string>();
             Bookmarks = new Dictionary<int, string>();
             FingerHints = new Dictionary<int, FingerHint>();
-            HandParts = new Dictionary<int, HandPart>();
-            Parts = new Dictionary<int, Part>();
+            HandParts = new Dictionary<int, string>();
+            Parts = new Dictionary<int, NotePart>();
         }
 
         /// <summary>
@@ -70,12 +72,12 @@ namespace Synthesia.MetaDataParser.Models
         /// <summary>
         /// Hand parts
         /// </summary>
-        public IDictionary<int,HandPart> HandParts { get; }
+        public IDictionary<int,string> HandParts { get; }
 
         /// <summary>
         /// Parts
         /// </summary>
-        public IDictionary<int,Part> Parts { get; }
+        public IDictionary<int, NotePart> Parts { get; }
 
         /// <summary>
         /// Rating

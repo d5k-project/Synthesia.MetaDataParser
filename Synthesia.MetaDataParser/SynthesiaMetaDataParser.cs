@@ -45,7 +45,7 @@ namespace Synthesia.MetaDataParser
 
         #region Methods
 
-        public Song Parse(string path)
+        public SynthesiaMetadata Parse(string path)
         {
             var stream = File.Open(path, FileMode.Open);
             if(stream == null)
@@ -54,7 +54,7 @@ namespace Synthesia.MetaDataParser
             return Parse(stream);
         }
 
-        public Song Parse(Stream stream)
+        public SynthesiaMetadata Parse(Stream stream)
         {
             XDocument mDocument;
 
@@ -80,7 +80,7 @@ namespace Synthesia.MetaDataParser
             return song;
         }
 
-        public Stream Export(Song song)
+        public Stream Export(SynthesiaMetadata song)
         {
             if (File == null)
             {
@@ -94,7 +94,7 @@ namespace Synthesia.MetaDataParser
             return null;
         }
 
-        public void Save(Song song, string path)
+        public void Save(SynthesiaMetadata song, string path)
         {
             XDocument m_document = null;
             var stream = Export(song);
