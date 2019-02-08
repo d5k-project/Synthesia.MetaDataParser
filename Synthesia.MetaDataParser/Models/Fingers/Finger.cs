@@ -5,31 +5,56 @@
         /// <summary>
         /// Skip(-)
         /// </summary>
-        Skip = 0,
+        Skip = '-',
 
         /// <summary>
-        /// Finger 1
+        /// Left 1
         /// </summary>
-        Finger1 = 1,
+        Left1 = '1',
 
         /// <summary>
-        /// Finger 2
+        /// Left 2
         /// </summary>
-        Finger2 = 2,
+        Left2 = '2',
 
         /// <summary>
-        /// Finger 3
+        /// Left 3
         /// </summary>
-        Finger3 = 3,
+        Left3 = '3',
 
         /// <summary>
-        /// Finger 4
+        /// Left 4
         /// </summary>
-        Finger4 = 4,
+        Left4 = '4',
 
         /// <summary>
-        /// Finger 5
+        /// Left 5
         /// </summary>
-        Finger5 = 5,
+        Left5 = '5',
+
+        /// <summary>
+        /// Right 1
+        /// </summary>
+        Right1 = '6',
+
+        /// <summary>
+        /// Right 2
+        /// </summary>
+        Right2 = '7',
+
+        /// <summary>
+        /// Right 3
+        /// </summary>
+        Right3 = '8',
+
+        /// <summary>
+        /// Right 4
+        /// </summary>
+        Right4 = '9',
+
+        /// <summary>
+        /// Right 5
+        /// </summary>
+        Right5 = '0'
     }
 }

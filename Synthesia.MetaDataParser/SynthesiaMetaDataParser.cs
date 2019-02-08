@@ -76,8 +76,8 @@ namespace Synthesia.MetaDataParser
         /// <summary>
         /// SynthesiaMetadata -> XML
         /// </summary>
-        /// <param name="songs"></param>
-        /// <param name="entry"></param>
+        /// <param name="document"></param>
+        /// <param name="synthesiaMetadata"></param>
         protected virtual void ApplySongProperty(XDocument document, SynthesiaMetadata synthesiaMetadata)
         {
             var songs = document.Root;
@@ -152,12 +152,12 @@ namespace Synthesia.MetaDataParser
             return null;
         }
 
-        protected virtual IDictionary<int, IPart> ConvertStringToParts(string fingerHintsString)
+        protected virtual IDictionary<int, Part> ConvertStringToParts(string fingerHintsString)
         {
-            return new Dictionary<int, IPart>();
+            return new Dictionary<int, Part>();
         }
 
-        protected virtual string ConvertPartsToString(IDictionary<int, IPart> fingerHints)
+        protected virtual string ConvertPartsToString(IDictionary<int, Part> fingerHints)
         {
             return null;
         }
@@ -178,12 +178,11 @@ namespace Synthesia.MetaDataParser
             var entry = new Dictionary<int,string>();
             if (fingerHintsString != null)
             {
-                foreach (var b in fingerHintsString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var b in fingerHintsString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     int comma = b.IndexOf(',');
 
-                    int measure;
-                    int.TryParse(comma == -1 ? b : b.Substring(0, comma), out measure);
+                    int.TryParse(comma == -1 ? b : b.Substring(0, comma), out var measure);
                     if (measure == 0) continue;
 
                     string description = "";
@@ -203,6 +202,26 @@ namespace Synthesia.MetaDataParser
                     (string.IsNullOrWhiteSpace(b.Value)
                         ? b.Key.ToString()
                         : string.Join(",", b.Key.ToString(), b.Value))));
+        }
+
+        protected char FingerToChar(Finger finger)
+        {
+            return (char) finger;
+        }
+
+        protected Finger CharToFinger(char c)
+        {
+            return (Finger) c;
+        }
+
+        protected char PartTypeToChar(PartType partType)
+        {
+            return (char)partType;
+        }
+
+        protected PartType CharToPartType(char c)
+        {
+            return (PartType)c;
         }
 
         #endregion

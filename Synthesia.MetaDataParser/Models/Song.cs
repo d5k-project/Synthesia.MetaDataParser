@@ -15,7 +15,7 @@ namespace Synthesia.MetaDataParser.Models
             Bookmarks = new Dictionary<int, string>();
             FingerHints = new Dictionary<int, FingerHint>();
             HandParts = new Dictionary<int, string>();
-            Parts = new Dictionary<int, IPart>();
+            Parts = new Dictionary<int, Part>();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Synthesia.MetaDataParser.Models
         /// <summary>
         /// Parts
         /// </summary>
-        public IDictionary<int, IPart> Parts { get; set; }
+        public IDictionary<int, Part> Parts { get; set; }
 
         /// <summary>
         /// Rating

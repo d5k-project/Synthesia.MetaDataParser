@@ -5,26 +5,26 @@
         /// <summary>
         /// Ignore(-)
         /// </summary>
-        Ignore,
+        Ignore = '-',
 
         /// <summary>
         /// Left(L)
         /// </summary>
-        Left,
+        Left = 'L' ,
 
         /// <summary>
         /// Right(R)
         /// </summary>
-        Right,
+        Right = 'R' ,
 
         /// <summary>
         /// Background(B)
         /// </summary>
-        Background,
+        Background = 'B',
 
         /// <summary>
         /// Dispose(X)
         /// </summary>
-        Dispose,
+        Dispose = 'X',
     }
 }
