@@ -82,7 +82,24 @@ namespace Synthesia.MetaDataParser
 
         public Stream Export(Song song)
         {
+            if (File == null)
+            {
+                var filename = f.SaveMetadataFilename();
+                if (filename == null) return false;
+                File = new FileInfo(filename);
+            }
+
+            using (FileStream output = File.Create())
+                Metadata.Save(output);
             return null;
+        }
+
+        public void Save(Song song, string path)
+        {
+            XDocument m_document = null;
+            var stream = Export(song);
+            using (StreamWriter writer = new StreamWriter(stream))
+                m_document.Save(writer, SaveOptions.None);
         }
 
         #endregion

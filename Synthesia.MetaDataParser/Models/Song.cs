@@ -3,8 +3,20 @@ using System.Collections.Generic;
 
 namespace Synthesia.MetaDataParser.Models
 {
+    /// <summary>
+    /// Song
+    /// </summary>
     public class Song
     {
+        public Song()
+        {
+            Tags = new List<string>();
+            Bookmarks = new Dictionary<int, string>();
+            FingerHints = new Dictionary<int, FingerHint>();
+            HandParts = new Dictionary<int, HandPart>();
+            Parts = new Dictionary<int, Part>();
+        }
+
         /// <summary>
         /// Unique Id
         /// </summary>
@@ -53,48 +65,37 @@ namespace Synthesia.MetaDataParser.Models
         /// <summary>
         /// Finger hints
         /// </summary>
-        public string FingerHints { get; set; }
+        public IDictionary<int,FingerHint> FingerHints { get; }
 
         /// <summary>
         /// Hand parts
         /// </summary>
-        public string HandParts { get; set; }
+        public IDictionary<int,HandPart> HandParts { get; }
 
         /// <summary>
         /// Parts
         /// </summary>
-        public string Parts { get; set; }
+        public IDictionary<int,Part> Parts { get; }
 
         /// <summary>
         /// Rating
         /// </summary>
-        private int? m_rating;
-        public int? Rating
-        {
-            get => m_rating;
-            set => m_rating = value.HasValue ? Math.Max(0, Math.Min(100, value.Value)) : (int?) null;
-        }
+        public int Rating { get; set; }
 
         /// <summary>
         /// Difficulty
         /// </summary>
-        private int? m_difficulty;
-        public int? Difficulty
-        {
-            get => m_difficulty;
-            set => m_difficulty = value.HasValue ? Math.Max(0, Math.Min(100, value.Value)) : (int?)null;
-        }
+        public int? Difficulty { get; set; }
 
         /// <summary>
         /// Returns a copy of the list.  Use AddTag() and RemoveTag() to make changes.
         /// </summary>
-        public IList<string> Tags { get; set; } = new List<string>();
-
+        public IList<string> Tags { get; }
 
         /// <summary>
         /// Returns a copy of the dictionary.
         /// </summary>
-        public Dictionary<int, string> Bookmarks { get; set; } = new Dictionary<int, string>();
+        public Dictionary<int, string> Bookmarks { get; }
 
         public override string ToString()
         {
