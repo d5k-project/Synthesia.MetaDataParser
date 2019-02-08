@@ -6,7 +6,22 @@ namespace Synthesia.MetaDataParser.Test
     public class TestSynthesiaMetaDataParser
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestImportDataFromPath()
+        {
+        }
+
+        [TestMethod]
+        public void TestImportDataFromStream()
+        {
+        }
+
+        [TestMethod]
+        public void TestExportDataToStream()
+        {
+        }
+
+        [TestMethod]
+        public void TestEditData()
         {
         }
     }
