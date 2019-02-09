@@ -7,6 +7,16 @@ namespace Synthesia.MetaDataParser.Models.Parts
 {
     public class Part : Dictionary<int, List<NotePart>>
     {
+        public Part()
+        {
+
+        }
+
+        public Part(PartType partType) : this()
+        {
+            AllPartType = partType;
+        }
+
         public PartType AllPartType { get; set; }
 
         public PartType SearchPartType(int measure,int index)
@@ -16,7 +26,7 @@ namespace Synthesia.MetaDataParser.Models.Parts
                 var sum = 0;
                 return this[measure].FirstOrDefault(x =>
                 {
-                    sum = sum + x.Size;
+                    sum = sum + x.Length;
                     return sum > index;
                 })?.PartType ?? AllPartType;
             }

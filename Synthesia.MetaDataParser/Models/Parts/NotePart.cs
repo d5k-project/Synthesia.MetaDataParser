@@ -2,14 +2,25 @@
 {
     public class NotePart
     {
+        public NotePart()
+        {
+            Length = 1;
+        }
+
+        public NotePart(PartType partType, int length = 1) : this()
+        {
+            PartType = partType;
+            Length = length;
+        }
+
         /// <summary>
         /// Part Type
         /// </summary>
         public PartType PartType { get; set; }
 
         /// <summary>
-        /// Size
+        /// Length
         /// </summary>
-        public int Size { get; set; } = 1;
+        public int Length { get; set; }
     }
 }
