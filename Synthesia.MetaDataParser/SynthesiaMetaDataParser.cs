@@ -216,7 +216,32 @@ namespace Synthesia.MetaDataParser
 
         protected virtual string ConvertPartsToString(IDictionary<int, Part> parts)
         {
-            return null;
+            if (parts == null)
+                return null;
+
+            var result = "";
+
+            foreach (var part in parts)
+            {
+                var partKey = part.Key;
+                var partValue = part.Value;
+                result = result + "t" + partKey + ":" + (char)partValue.AllPartType + "A ";
+
+                foreach (var notePart in partValue)
+                {
+                    result = result + "m" + notePart.Key + ":";
+
+                    foreach (var singleNotePart in notePart.Value)
+                    {
+                        result = result + (char) singleNotePart.PartType;
+
+                        if (singleNotePart.Length > 1)
+                            result = result + singleNotePart.Length;
+                    }
+                }
+            }
+
+            return result;
         }
 
         protected virtual IList<string> ConvertStringToTags(string tagsString)

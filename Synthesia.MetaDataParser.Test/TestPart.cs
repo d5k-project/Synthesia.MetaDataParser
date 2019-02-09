@@ -6,6 +6,9 @@ using Synthesia.MetaDataParser.Models.Parts;
 
 namespace Synthesia.MetaDataParser.Test
 {
+    /// <summary>
+    /// See : https://github.com/Synthesia-LLC/metadata-editor/wiki/Hand-Parts
+    /// </summary>
     [TestClass]
     public class TestPart : BaseTest
     {
@@ -64,7 +67,7 @@ namespace Synthesia.MetaDataParser.Test
             var fingerHintsString = Parser.TestConvertPartsToString(parts);
 
             //Track0 and Track1
-            Assert.AreEqual("t1:  6699009 m1: 9988776", fingerHintsString);
+            Assert.AreEqual("t0:LA t1:RA m10:Lm15:-10", fingerHintsString);
         }
 
         #endregion

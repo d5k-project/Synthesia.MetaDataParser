@@ -18,6 +18,11 @@ namespace Synthesia.MetaDataParser.Models
             Parts = new Dictionary<int, Part>();
         }
 
+        public Song(string uniqueId) : this()
+        {
+            UniqueId = uniqueId;
+        }
+
         /// <summary>
         /// Unique Id
         /// </summary>

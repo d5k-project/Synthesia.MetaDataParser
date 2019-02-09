@@ -6,6 +6,9 @@ using Synthesia.MetaDataParser.Models.Fingers;
 
 namespace Synthesia.MetaDataParser.Test
 {
+    /// <summary>
+    /// See : https://github.com/Synthesia-LLC/metadata-editor/wiki/Finger-Hints
+    /// </summary>
     [TestClass]
     public class TestFingerHint : BaseTest
     {
