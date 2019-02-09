@@ -134,7 +134,43 @@ namespace Synthesia.MetaDataParser
 
         protected virtual IDictionary<int, FingerHint> ConvertStringToFingerHints(string fingerHintsString)
         {
-            return new Dictionary<int, FingerHint>();
+            var fingerHintsDictionary = new Dictionary<int, FingerHint>();
+
+            //Do not convert if string is empty
+            if (string.IsNullOrEmpty(fingerHintsString))
+                return fingerHintsDictionary;
+
+            //split tracks
+            var hint = "0:  " + fingerHintsString;
+            var trackStrings = hint.Split('t');
+
+            foreach (var trackString in trackStrings)
+            {
+                var fingerHints = new FingerHint();
+
+                var trackInfo = trackString.Split(":  ");
+
+                //get track id and track infos
+                var trackId = int.Parse(trackInfo[0]);
+                var measureInfos = trackInfo[1].Split("m").Where(x=>!string.IsNullOrWhiteSpace(x));
+
+                foreach (var measureInfo in measureInfos)
+                {
+                    var measureInfoSplit = (measureInfo.Contains(":") ? measureInfo : "0:" + measureInfo).Split(':');
+
+                    //get measure id and fingers in measure
+                    var measureId = int.Parse(measureInfoSplit[0]);
+                    var fingers = measureInfoSplit[1].Replace(" ", String.Empty).Select(c => (Finger) c).ToList();
+
+                    //collect
+                    fingerHints.AddMeasure(measureId, fingers);
+                }
+
+                //collect
+                fingerHintsDictionary.Add(trackId, fingerHints);
+            }
+
+            return fingerHintsDictionary;
         }
 
         protected virtual string ConvertFingerHintsToString(IDictionary<int, FingerHint> fingerHints)

@@ -31,7 +31,7 @@ namespace Synthesia.MetaDataParser.Test
                 "tag003",
             };
 
-            //get tags
+            //get tags string
             var tagsString = Parser.TestConvertTagsToString(tags);
 
             Assert.AreEqual("tag001;tag002;tag003", tagsString);

@@ -11,12 +11,12 @@ namespace Synthesia.MetaDataParser.Test
         {
             const string bookmarkString = "1,bookmark001;2,bookmark002;3,bookmark003";
 
-            //get tags
-            var tags = Parser.TestConvertStringToBookmarks(bookmarkString);
+            //get bookmarks
+            var bookmarks = Parser.TestConvertStringToBookmarks(bookmarkString);
 
-            Assert.AreEqual(3, tags.Count);
-            Assert.AreEqual("bookmark001", tags[1]);
-            Assert.AreEqual("bookmark003", tags[3]);
+            Assert.AreEqual(3, bookmarks.Count);
+            Assert.AreEqual("bookmark001", bookmarks[1]);
+            Assert.AreEqual("bookmark003", bookmarks[3]);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Synthesia.MetaDataParser.Test
                 {3,"bookmark003"}
             };
 
-            //get tags
+            //get bookmarks string
             var bookmarksString = Parser.TestConvertBookmarksToString(bookmarks);
 
             Assert.AreEqual("1,bookmark001;2,bookmark002;3,bookmark003", bookmarksString);
