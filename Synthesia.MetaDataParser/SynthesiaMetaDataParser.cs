@@ -175,7 +175,26 @@ namespace Synthesia.MetaDataParser
 
         protected virtual string ConvertFingerHintsToString(IDictionary<int, FingerHint> fingerHints)
         {
-            return null;
+            if (fingerHints == null)
+                return null;
+
+            var result = "";
+
+            foreach (var fingerHint in fingerHints)
+            {
+                if (fingerHint.Key != 0)
+                    result = result + "t" + fingerHint.Key + ":  ";
+
+                foreach (var measureInfo in fingerHint.Value)
+                {
+                    if(measureInfo.Key!=0)
+                        result = result + " m" + fingerHint.Key + ": ";
+
+                    result = result + string.Concat(measureInfo.Value.Select(x => (char)x));
+                }
+            }
+
+            return result;
         }
 
         protected virtual IDictionary<int, string> ConvertStringToHandParts(string handPartsString)
