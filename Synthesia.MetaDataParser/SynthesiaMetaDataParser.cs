@@ -261,16 +261,6 @@ namespace Synthesia.MetaDataParser
                         : string.Join(",", b.Key.ToString(), b.Value))));
         }
 
-        protected char FingerToChar(Finger finger)
-        {
-            return (char) finger;
-        }
-
-        protected Finger CharToFinger(char c)
-        {
-            return (Finger) c;
-        }
-
         protected char PartTypeToChar(PartType partType)
         {
             return (char)partType;

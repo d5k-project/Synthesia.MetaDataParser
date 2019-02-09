@@ -17,7 +17,7 @@ namespace Synthesia.MetaDataParser.Test
             var fingerHintsString =
                 "6780 m14: ----6060680690690786868686868686868686869686868-86868686868 t1:  m2: 52431----6";
 
-            //get bookmarks
+            //get finger hints
             var fingerHints = Parser.TestConvertStringToFingerHints(fingerHintsString);
 
             //Track0 and Track1
@@ -76,7 +76,7 @@ namespace Synthesia.MetaDataParser.Test
                 }
             };
 
-            //get bookmarks
+            //get finger hints string
             var fingerHintsString = Parser.TestConvertFingerHintsToString(fingerHints);
 
             //Track0 and Track1

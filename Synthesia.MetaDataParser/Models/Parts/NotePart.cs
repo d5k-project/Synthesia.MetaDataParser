@@ -1,6 +1,6 @@
 ﻿namespace Synthesia.MetaDataParser.Models.Parts
 {
-    public class NotePart : IPart
+    public class NotePart
     {
         /// <summary>
         /// Part Type
@@ -10,11 +10,6 @@
         /// <summary>
         /// Size
         /// </summary>
-        public int Size { get; set; }
-
-        /// <summary>
-        /// All
-        /// </summary>
-        public bool All { get; set; }
+        public int Size { get; set; } = 1;
     }
 }
