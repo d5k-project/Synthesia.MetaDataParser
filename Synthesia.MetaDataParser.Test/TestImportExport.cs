@@ -7,7 +7,7 @@ using Synthesia.MetaDataParser.Models;
 namespace Synthesia.MetaDataParser.Test
 {
     [TestClass]
-    public class TestSynthesiaMetaDataParser : BaseTest
+    public class TestImportExport : BaseTest
     {
         #region Utilities
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Synthesia.MetaDataParser.Extensions;
 using Synthesia.MetaDataParser.Models;
@@ -92,7 +93,7 @@ namespace Synthesia.MetaDataParser
             var songs = top.Element("Songs");
             if (songs == null)
             {
-                document.Root?.Add(songs = new XElement("Songs"));
+                top.Add(songs = new XElement("Songs"));
             }
 
             //Add each song in songs field
@@ -144,45 +145,102 @@ namespace Synthesia.MetaDataParser
             }
         }
 
-        protected virtual IDictionary<int, FingerHint> ConvertStringToFingerHints(string fingerHintsString)
+        protected virtual IDictionary<int, IDictionary<int, string>> ConvertToTrackFormat(string formatString)
         {
-            var fingerHintsDictionary = new Dictionary<int, FingerHint>();
+            if(string.IsNullOrEmpty(formatString))
+                return new Dictionary<int, IDictionary<int, string>>();
 
-            //Do not convert if string is empty
-            if (string.IsNullOrEmpty(fingerHintsString))
-                return fingerHintsDictionary;
+            //get tracks
+            var trackStrings = formatString.Replace(" ",string.Empty)
+                .Split('t').Where(t => !string.IsNullOrEmpty(t))
+                .ToDictionary(k => int.Parse(k.Split(':').FirstOrDefault())
+                    , v =>
+                    {
+                        var measure = ("t" + v)
+                            .Split('m').Where(m => !string.IsNullOrEmpty(m) && m.Split(':').Count(x=>!string.IsNullOrEmpty(x)) == 2)
+                            .ToDictionary(k =>
+                                {
+                                    var keyString = k.Split(':').FirstOrDefault();
 
-            //split tracks
-            var hint = "0:  " + fingerHintsString;
-            var trackStrings = hint.Split('t');
+                                    if (keyString != null && keyString.Contains('t'))
+                                        return -1;
 
-            foreach (var trackString in trackStrings)
+                                    return int.Parse(keyString);
+                                },
+                                vv => vv.Split(':').LastOrDefault());
+
+                        return (IDictionary<int,string>)measure;
+                    });
+
+            return trackStrings;
+        }
+
+        public List<string> SpecialSplit(string input)
+        {
+            var result = new List<string>();
+
+            var currentString = new StringBuilder(4);
+            for (var i = 0; i < input.Length; i++)
             {
-                var fingerHints = new FingerHint();
+                var c = input[i];
 
-                var trackInfo = trackString.Split(":  ");
-
-                //get track id and track infos
-                var trackId = int.Parse(trackInfo[0]);
-                var measureInfos = trackInfo[1].Split("m").Where(x=>!string.IsNullOrWhiteSpace(x));
-
-                foreach (var measureInfo in measureInfos)
+                if (currentString.Length > 0)
                 {
-                    var measureInfoSplit = (measureInfo.Contains(":") ? measureInfo : "0:" + measureInfo).Split(':');
+                    // Determine whether we're at constraints or not.
+                    var firstCharLetter = currentString[0] >= 'A' && currentString[0] <= 'Z';
+                    var atMaxLetterLength = firstCharLetter && currentString.Length == 4;
+                    var atMaxNumberLength = !firstCharLetter && currentString.Length == 3;
 
-                    //get measure id and fingers in measure
-                    var measureId = int.Parse(measureInfoSplit[0]);
-                    var fingers = measureInfoSplit[1].Replace(" ", String.Empty).Select(c => (Finger) c).ToList();
+                    // Split if at max letter/number length, or if we're on a letter.
+                    var mustSplit = atMaxLetterLength || atMaxNumberLength || c >= 'A' && c <= 'Z' || c == '-';
 
-                    //collect
-                    fingerHints.AddMeasure(measureId, fingers);
+                    if (mustSplit)
+                    {
+                        // If we must split our string, then verify we're not leaving an orphaned '0'.
+                        if (c == '0')
+                        {
+                            // Go back a letter, take it out of the new string, and set our `c` to it.
+                            i--;
+                            currentString.Length--;
+                            c = input[i];
+                        }
+
+                        // Add and clear the string to our result.
+                        result.Add(currentString.ToString());
+                        currentString.Clear();
+                    }
                 }
 
-                //collect
-                fingerHintsDictionary.Add(trackId, fingerHints);
+                // Add our `c` to the string.
+                currentString.Append(c);
             }
 
-            return fingerHintsDictionary;
+            // Add our string to the result.
+            result.Add(currentString.ToString());
+
+            return result;
+        }
+
+        protected virtual IDictionary<int, FingerHint> ConvertStringToFingerHints(string fingerHintsString)
+        {
+            var dict = ConvertToTrackFormat("0:" +fingerHintsString);
+
+            //convert to wanted format
+            return dict.ToDictionary(k => k.Key,
+                v =>
+                {
+                    var fingerHint = new FingerHint();
+
+                    var measures = v.Value;
+                    foreach (var measure in measures)
+                    {
+                        //if -1 then replace to 0
+                        var measureKey = measure.Key == -1 ? 0 : measure.Key;
+                        var fingers = measure.Value.Select(c => (Finger)c).ToList();
+                        fingerHint.AddMeasure(measureKey, fingers);
+                    }
+                    return fingerHint;
+                });
         }
 
         protected virtual string ConvertFingerHintsToString(IDictionary<int, FingerHint> fingerHints)
@@ -223,7 +281,48 @@ namespace Synthesia.MetaDataParser
 
         protected virtual IDictionary<int, Part> ConvertStringToParts(string partsString)
         {
-            return new Dictionary<int, Part>();
+            var dict = ConvertToTrackFormat(partsString);
+
+            return dict.ToDictionary(k => k.Key,
+                v =>
+                {
+                    var part = new Part();
+
+                    var noteParts = v.Value;
+                    foreach (var notePart in noteParts)
+                    {
+                        var notePartKey = notePart.Key;
+                        var notePartValue = notePart.Value;
+
+                        if (notePartKey == -1)
+                        {
+                            //Set all key
+                            part.AllPartType = (PartType)notePartValue[0];
+                        }
+                        else
+                        {
+                            var notes = new List<NotePart>();
+                            var notesStr = SpecialSplit(notePartValue);
+                            foreach (var noteStr in notesStr)
+                            {
+                                var note = new NotePart
+                                {
+                                    PartType = (PartType)noteStr[0]
+                                };
+
+                                if (noteStr.Any(char.IsDigit))
+                                    note.Length = int.Parse(noteStr.Substring(1, noteStr.Length - 1));
+
+                                notes.Add(note);
+                            }
+
+                            //set partial key
+                            part.Add(notePartKey,notes);
+                        }
+                    }
+
+                    return part;
+                });
         }
 
         protected virtual string ConvertPartsToString(IDictionary<int, Part> parts)

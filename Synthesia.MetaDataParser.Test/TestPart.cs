@@ -17,7 +17,7 @@ namespace Synthesia.MetaDataParser.Test
         [TestMethod]
         public void TestParsePart()
         {
-            var partsString = "t0:RA t1:LA";
+            var partsString = "t0:RA t1:LA m9:L4RBX-";
 
             //get parts
             var parts = Parser.TestConvertStringToParts(partsString);
@@ -25,11 +25,14 @@ namespace Synthesia.MetaDataParser.Test
             //Track0 and Track1
             Assert.AreEqual(2, parts.Count);
 
-            //Track1 has one part
+            //Track1 has one measure
             Assert.AreEqual(1, parts[1].Count);
 
-            //Track1, part1 is "all part"
-            Assert.AreEqual(PartType.Left, parts[1][0][0].PartType);
+            //Track1 measure9 has 5 parts
+            Assert.AreEqual(5, parts[1][9].Count);
+
+            //Track1 is "all part"
+            Assert.AreEqual(PartType.Left, parts[1].AllPartType);
         }
 
         [TestMethod]
