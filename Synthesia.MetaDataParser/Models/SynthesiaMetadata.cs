@@ -8,6 +8,7 @@ namespace Synthesia.MetaDataParser.Models
     {
         public SynthesiaMetadata()
         {
+            Version = 1;
             Songs = new List<Song>();
         }
 

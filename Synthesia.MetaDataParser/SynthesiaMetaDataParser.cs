@@ -35,7 +35,7 @@ namespace Synthesia.MetaDataParser
 
             if (songs == null)
             {
-                document.Root?.Add(songs = new XElement("Songs"));
+                document.Root?.Add(new XElement("Songs"));
                 return;
             }
 
@@ -80,10 +80,22 @@ namespace Synthesia.MetaDataParser
         /// <param name="synthesiaMetadata"></param>
         protected virtual void ApplySongProperty(XDocument document, SynthesiaMetadata synthesiaMetadata)
         {
-            var songs = document.Root;
-            //Set version
-            songs.SetAttributeValueAndRemoveEmpty("Version", synthesiaMetadata.Version);
+            XElement top = document.Root;
 
+            if (top == null || top.Name != "SynthesiaMetadata")
+                document.Add(top = new XElement("SynthesiaMetadata", new XAttribute("Version", synthesiaMetadata.Version)));
+
+            //Set version
+            top.SetAttributeValueAndRemoveEmpty("Version", synthesiaMetadata.Version);
+
+            //Set songs
+            var songs = top.Element("Songs");
+            if (songs == null)
+            {
+                document.Root?.Add(songs = new XElement("Songs"));
+            }
+
+            //Add each song in songs field
             foreach (var entry in synthesiaMetadata.Songs)
             {
                 //Check xml cannot be null
@@ -286,16 +298,6 @@ namespace Synthesia.MetaDataParser
                         : string.Join(",", b.Key.ToString(), b.Value))));
         }
 
-        protected char PartTypeToChar(PartType partType)
-        {
-            return (char)partType;
-        }
-
-        protected PartType CharToPartType(char c)
-        {
-            return (PartType)c;
-        }
-
         #endregion
 
         #region Methods
@@ -311,14 +313,20 @@ namespace Synthesia.MetaDataParser
 
         public SynthesiaMetadata Parse(Stream stream)
         {
-            XDocument mDocument;
+            XDocument document;
 
             using (var reader = new StreamReader(stream))
-                mDocument = XDocument.Load(reader, LoadOptions.None);
+                document = XDocument.Load(reader, LoadOptions.None);
 
+            return Parse(document);
+        }
+
+        public SynthesiaMetadata Parse(XDocument document)
+        {
             var metadata = new SynthesiaMetadata();
 
-            GetSongProperty(mDocument, metadata);
+
+            GetSongProperty(document, metadata);
 
             return metadata;
         }
