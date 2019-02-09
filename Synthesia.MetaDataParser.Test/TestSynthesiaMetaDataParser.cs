@@ -7,7 +7,7 @@ using Synthesia.MetaDataParser.Models;
 namespace Synthesia.MetaDataParser.Test
 {
     [TestClass]
-    public class TestSynthesiaMetaDataParser
+    public class TestSynthesiaMetaDataParser : BaseTest
     {
         #region Utilities
 
@@ -27,7 +27,7 @@ namespace Synthesia.MetaDataParser.Test
             }
         }
 
-        protected bool CompareTweoSongs(Song song1, Song song2)
+        protected bool CompareTwoSongs(Song song1, Song song2)
         {
             return false;
         }

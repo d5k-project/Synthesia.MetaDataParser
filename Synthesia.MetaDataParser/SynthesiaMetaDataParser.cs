@@ -144,41 +144,43 @@ namespace Synthesia.MetaDataParser
 
         protected virtual IDictionary<int, string> ConvertStringToHandParts(string handPartsString)
         {
+            //TODO : Note : HandParts is too lod so not implement now
             return new Dictionary<int, string>();
         }
 
         protected virtual string ConvertHandPartsToString(IDictionary<int, string> handParts)
         {
+            //TODO : Note : HandParts is too lod so not implement now
             return null;
         }
 
-        protected virtual IDictionary<int, Part> ConvertStringToParts(string fingerHintsString)
+        protected virtual IDictionary<int, Part> ConvertStringToParts(string partsString)
         {
             return new Dictionary<int, Part>();
         }
 
-        protected virtual string ConvertPartsToString(IDictionary<int, Part> fingerHints)
+        protected virtual string ConvertPartsToString(IDictionary<int, Part> parts)
         {
             return null;
         }
 
-        protected virtual IList<string> ConvertStringToTags(string fingerHintsString)
+        protected virtual IList<string> ConvertStringToTags(string tagsString)
         {
-            return fingerHintsString?.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
+            return tagsString?.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                 .ToList() ?? new List<string>();
         }
 
-        protected virtual string ConvertTagsToString(IList<string> fingerHints)
+        protected virtual string ConvertTagsToString(IList<string> tags)
         {
-            return string.Join(";", fingerHints.ToArray());
+            return string.Join(";", tags.ToArray());
         }
 
-        protected virtual IDictionary<int, string> ConvertStringToBookmarks(string fingerHintsString)
+        protected virtual IDictionary<int, string> ConvertStringToBookmarks(string bookmarksString)
         {
             var entry = new Dictionary<int,string>();
-            if (fingerHintsString != null)
+            if (bookmarksString != null)
             {
-                foreach (var b in fingerHintsString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var b in bookmarksString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     int comma = b.IndexOf(',');
 
@@ -195,10 +197,10 @@ namespace Synthesia.MetaDataParser
             return entry;
         }
 
-        protected virtual string ConvertBookmarksToString(IDictionary<int, string> fingerHints)
+        protected virtual string ConvertBookmarksToString(IDictionary<int, string> bookmarks)
         {
             return string.Join(";",
-                fingerHints.Select(b =>
+                bookmarks.Select(b =>
                     (string.IsNullOrWhiteSpace(b.Value)
                         ? b.Key.ToString()
                         : string.Join(",", b.Key.ToString(), b.Value))));

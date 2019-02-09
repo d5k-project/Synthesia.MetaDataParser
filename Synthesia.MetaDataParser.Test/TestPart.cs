@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Synthesia.MetaDataParser.Test
 {
     [TestClass]
-    public class TestPart
+    public class TestPart : BaseTest
     {
         #region Tests
 
