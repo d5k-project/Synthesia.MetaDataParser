@@ -10,6 +10,8 @@
     <RepositoryUrl>https://github.com/andy840119/Synthesia.MetaDataParser</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>andy840119 Synthesia parser</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/andy840119/Synthesia.MetaDataParser/master/Image/icon.png</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
