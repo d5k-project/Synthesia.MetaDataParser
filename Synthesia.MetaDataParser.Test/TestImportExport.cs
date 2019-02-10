@@ -52,13 +52,14 @@ namespace Synthesia.MetaDataParser.Test
         public void TestImportDataFromStream()
         {
             var path = "Sample/SampleMetadata.synthesia";
-            var stream = File.Open(path, FileMode.Open);
+            using (var stream = File.Open(path, FileMode.Open))
+            {
+                //import songs
+                var songs = Parser.Parse(stream);
 
-            //import songs
-            var songs = Parser.Parse(stream);
-
-            //Check songs number
-            Assert.AreEqual(1, songs.Songs.Count);
+                //Check songs number
+                Assert.AreEqual(1, songs.Songs.Count);
+            }
         }
 
         [TestMethod]

@@ -409,11 +409,13 @@ namespace Synthesia.MetaDataParser
 
         public SynthesiaMetadata Parse(string path)
         {
-            var stream = File.Open(path, FileMode.Open);
-            if(stream == null)
-                throw new FileNotFoundException();
+            using (var stream = File.Open(path, FileMode.Open))
+            {
+                if (stream == null)
+                    throw new FileNotFoundException();
 
-            return Parse(stream);
+                return Parse(stream);
+            }
         }
 
         public SynthesiaMetadata Parse(Stream stream)
@@ -452,6 +454,8 @@ namespace Synthesia.MetaDataParser
             var stream = new MemoryStream();
 
             xmlFile.Save(stream);
+            stream.Flush();//Adjust this if you want read your data 
+            stream.Position = 0;
 
             return stream;
         }
