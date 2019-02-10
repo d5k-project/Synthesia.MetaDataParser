@@ -9,7 +9,6 @@ namespace Synthesia.MetaDataParser.Models.Parts
     {
         public Part()
         {
-
         }
 
         public Part(PartType partType) : this()

@@ -192,7 +192,7 @@ namespace Synthesia.MetaDataParser
                     var atMaxNumberLength = !firstCharLetter && currentString.Length == 3;
 
                     // Split if at max letter/number length, or if we're on a letter.
-                    var mustSplit = atMaxLetterLength || atMaxNumberLength || c >= 'A' && c <= 'Z' || c == '-';
+                    var mustSplit = atMaxLetterLength || atMaxNumberLength || (c >= 'A' && c <= 'Z') || c == '-';
 
                     if (mustSplit)
                     {
@@ -454,7 +454,9 @@ namespace Synthesia.MetaDataParser
             var stream = new MemoryStream();
 
             xmlFile.Save(stream);
-            stream.Flush();//Adjust this if you want read your data 
+
+            //Adjust this if you want read your data 
+            stream.Flush();
             stream.Position = 0;
 
             return stream;
