@@ -46,7 +46,6 @@ namespace Synthesia.MetaDataParser.Test
             public string TestConvertFingerHintsToString(IDictionary<int, FingerHint> fingerHints)
                 => ConvertFingerHintsToString(fingerHints);
 
-
             public IDictionary<int, string> TestConvertStringToHandParts(string handPartsString)
                 => ConvertStringToHandParts(handPartsString);
 
