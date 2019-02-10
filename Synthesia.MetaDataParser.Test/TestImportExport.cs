@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Synthesia.MetaDataParser.Models;
+using Synthesia.MetaDataParser.Test.Helpers;
 
 namespace Synthesia.MetaDataParser.Test
 {
@@ -11,25 +12,14 @@ namespace Synthesia.MetaDataParser.Test
     {
         #region Utilities
 
-        protected Song SaveAndReloadSong(Song song)
+        protected bool CompareTwoSynthesiaMetadatas(SynthesiaMetadata metadata1, SynthesiaMetadata metadata2)
         {
-            var metadata = new SynthesiaMetadata
-            {
-                Songs = new List<Song>
-                {
-                    song
-                }
-            };
-            var parser = new SynthesiaMetaDataParser();
-            using (var stream = parser.ToStream(metadata))
-            {
-                return parser.Parse(stream).Songs?.FirstOrDefault();
-            }
+            return CompareHelper.CompareWithJsonFormat(metadata1, metadata2);
         }
 
         protected bool CompareTwoSongs(Song song1, Song song2)
         {
-            return false;
+            return CompareHelper.CompareWithJsonFormat(song1,song2);
         }
 
         #endregion
@@ -39,46 +29,75 @@ namespace Synthesia.MetaDataParser.Test
         [TestMethod]
         public void TestImportDataFromPath()
         {
-            var path = "";
-            var parser = new SynthesiaMetaDataParser();
-            var songs = parser.Parse(path);
+            var path = "Sample/SampleMetadata.synthesia";
 
-            //TODO : Check song's property
+            //import songs
+            var songs = Parser.Parse(path);
+            var song = songs.Songs.FirstOrDefault();
+
+            //Check songs number
+            Assert.AreEqual(1,songs.Songs.Count);
+
+            //Check first song's name
+            Assert.AreEqual("Freesia", song.Title);
+
+            //Has three bookmarks
+            Assert.AreEqual(3, song.Bookmarks.Count);
+
+            //Has three tags
+            Assert.AreEqual(3, song.Tags.Count);
         }
 
         [TestMethod]
         public void TestImportDataFromStream()
         {
-            var path = "";
+            var path = "Sample/SampleMetadata.synthesia";
             var stream = File.Open(path, FileMode.Open);
 
-            var parser = new SynthesiaMetaDataParser();
-            var songs = parser.Parse(path);
+            //import songs
+            var songs = Parser.Parse(stream);
 
-            //TODO : Check song's property
+            //Check songs number
+            Assert.AreEqual(1, songs.Songs.Count);
+        }
+
+        [TestMethod]
+        public void TestExportDataToXml()
+        {
+            //Song
+            var path = "Sample/SampleMetadata.synthesia";
+
+            //import songs
+            var metadata = Parser.Parse(path);
+
+            //save songs 
+            var xml = Parser.ToXml(metadata);
+
+            //reload song
+            var savedMetadata = Parser.Parse(xml);
+
+            //compare two metadata is equal
+            Assert.IsTrue(CompareTwoSynthesiaMetadatas(metadata, savedMetadata));
         }
 
         [TestMethod]
         public void TestExportDataToStream()
         {
             //Song
-            var song = new Song();
-            var parser = new SynthesiaMetaDataParser();
+            var path = "Sample/SampleMetadata.synthesia";
 
-            var savedSong = SaveAndReloadSong(song);
+            //import songs
+            var metadata = Parser.Parse(path);
 
-            //TODO: compare two song property
-        }
+            //save songs 
+            using (var stream = Parser.ToStream(metadata))
+            {
+                //save and reload song
+                var savedMetadata = Parser.Parse(stream);
 
-        [TestMethod]
-        public void TestEditData()
-        {
-            //TODO : Edit property
-            var song = new Song();
-
-            //TODO : save and reload song
-
-            //TODO : compare two songs (maybe convert to json string and compare)
+                //compare two songs is equal
+                Assert.IsTrue(CompareTwoSynthesiaMetadatas(metadata, savedMetadata));
+            }
         }
 
         #endregion

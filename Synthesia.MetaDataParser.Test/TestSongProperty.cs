@@ -14,21 +14,7 @@ namespace Synthesia.MetaDataParser.Test
         public void TestSongOtherProperty()
         {
             //Create a song
-            var song = new Song("c970bb288493a5c45dff39e7fcd252a8")
-            {
-                Title = "Freesia",
-                Subtitle = "Freesia-subtitle",
-                BackgroundImage = "../image001.png",
-
-                Composer = "Freesia team",
-                Arranger = "Arrange",
-                Copyright = "IDK",
-                License = "ODOa",
-                MadeFamousBy = "OxOa",
-
-                Difficulty = 87,//Note : should be 1 to 100
-                Rating = 87,//Note : should be 1 to 100
-            };
+            var song = CreateTestSong();
 
             //Export to xml format
             var exportXml = Parser.ToXml(new SynthesiaMetadata

@@ -11,12 +11,16 @@ namespace Synthesia.MetaDataParser.Models.Fingers
         public void AddMeasure(int measureIndex, List<Finger> fingers = null)
         {
             if (ContainsKey(measureIndex))
-                if(fingers != null && fingers.Any())
+            {
+                if (fingers != null && fingers.Any())
                     this[measureIndex] = fingers;
                 else
                     return;
-
-            Add(measureIndex, fingers);
+            }
+            else
+            {
+                Add(measureIndex, fingers);
+            }
         }
     }
 }

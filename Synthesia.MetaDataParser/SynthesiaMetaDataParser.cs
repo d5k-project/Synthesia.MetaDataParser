@@ -223,6 +223,9 @@ namespace Synthesia.MetaDataParser
 
         protected virtual IDictionary<int, FingerHint> ConvertStringToFingerHints(string fingerHintsString)
         {
+            if(string.IsNullOrEmpty(fingerHintsString))
+                return new Dictionary<int, FingerHint>();
+
             var dict = ConvertToTrackFormat("0:" +fingerHintsString);
 
             //convert to wanted format
@@ -245,7 +248,7 @@ namespace Synthesia.MetaDataParser
 
         protected virtual string ConvertFingerHintsToString(IDictionary<int, FingerHint> fingerHints)
         {
-            if (fingerHints == null)
+            if (fingerHints == null || !fingerHints.Any())
                 return null;
 
             var result = "";
@@ -258,7 +261,7 @@ namespace Synthesia.MetaDataParser
                 foreach (var measureInfo in fingerHint.Value)
                 {
                     if(measureInfo.Key!=0)
-                        result = result + " m" + fingerHint.Key + ": ";
+                        result = result + " m" + measureInfo.Key + ": ";
 
                     result = result + string.Concat(measureInfo.Value.Select(x => (char)x));
                 }
@@ -281,6 +284,9 @@ namespace Synthesia.MetaDataParser
 
         protected virtual IDictionary<int, Part> ConvertStringToParts(string partsString)
         {
+            if (string.IsNullOrEmpty(partsString))
+                return new Dictionary<int, Part>();
+
             var dict = ConvertToTrackFormat(partsString);
 
             return dict.ToDictionary(k => k.Key,
@@ -327,7 +333,7 @@ namespace Synthesia.MetaDataParser
 
         protected virtual string ConvertPartsToString(IDictionary<int, Part> parts)
         {
-            if (parts == null)
+            if (parts == null || !parts.Any())
                 return null;
 
             var result = "";
@@ -412,10 +418,10 @@ namespace Synthesia.MetaDataParser
 
         public SynthesiaMetadata Parse(Stream stream)
         {
-            XDocument document;
+            if (stream == null)
+                throw new FileNotFoundException();
 
-            using (var reader = new StreamReader(stream))
-                document = XDocument.Load(reader, LoadOptions.None);
+            var document = XDocument.Load(stream, LoadOptions.None);
 
             return Parse(document);
         }
@@ -423,7 +429,6 @@ namespace Synthesia.MetaDataParser
         public SynthesiaMetadata Parse(XDocument document)
         {
             var metadata = new SynthesiaMetadata();
-
 
             GetSongProperty(document, metadata);
 

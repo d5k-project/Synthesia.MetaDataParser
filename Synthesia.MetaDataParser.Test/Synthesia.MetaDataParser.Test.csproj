@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Synthesia.MetaDataParser\Synthesia.MetaDataParser.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Sample\SampleMetadata.synthesia">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
