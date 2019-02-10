@@ -1,7 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>andy840119</Authors>
+    <Description>Import, edit and export Synthesia's metadata file</Description>
+    <Copyright>andy840119</Copyright>
+    <PackageLicenseUrl>https://github.com/andy840119/Synthesia.MetaDataParser</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/andy840119/Synthesia.MetaDataParser</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/andy840119/Synthesia.MetaDataParser</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>andy840119 Synthesia parser</PackageTags>
   </PropertyGroup>
 
 </Project>
